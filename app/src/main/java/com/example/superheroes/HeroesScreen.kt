@@ -1,8 +1,5 @@
 package com.example.superheroes
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -10,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,7 +19,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,40 +28,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.superheroes.model.Hero
-import com.example.superheroes.model.HeroesRepository.heroes
-import com.example.superheroes.ui.theme.SupeheroesTheme
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SupeheroesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    HeroApp()
-                }
-            }
-        }
-    }
-}
+import com.example.superheroes.model.HeroesRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeroApp() {
+fun SuperheroeApp() {
     Scaffold(
         topBar = {
-            HeroTopAppBar()
+            SuperheroTopAppBar()
         }
     ) { it ->
         LazyColumn(contentPadding = it) {
-            items(heroes) {
-                HeroItem(
+            items(HeroesRepository.heroes) {
+                SuperheroeItem(
                     hero = it,
                     modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))
                 )
@@ -77,7 +53,7 @@ fun HeroApp() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeroTopAppBar(modifier: Modifier = Modifier) {
+fun SuperheroTopAppBar(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         title = {
             Row(
@@ -95,7 +71,7 @@ fun HeroTopAppBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HeroItem(
+fun SuperheroeItem(
     hero: Hero,
     modifier: Modifier = Modifier
 ) {
@@ -108,15 +84,15 @@ fun HeroItem(
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_small))
         ) {
-            HeroInformation(heroName = hero.nameRes, heroDescription = hero.descriptionRes)
+            SuperheroeInformation(heroName = hero.nameRes, heroDescription = hero.descriptionRes)
             Spacer(Modifier.weight(1f))
-            HeroIcon(hero.imageRes)
+            SuperheroeIcon(hero.imageRes)
         }
     }
 }
 
 @Composable
-fun HeroInformation(
+fun SuperheroeInformation(
     @StringRes heroName: Int,
     heroDescription: Int,
     modifier: Modifier = Modifier
@@ -136,7 +112,7 @@ fun HeroInformation(
 }
 
 @Composable
-fun HeroIcon(
+fun SuperheroeIcon(
     @DrawableRes heroIcon: Int,
     modifier: Modifier = Modifier
 ) {
@@ -150,21 +126,5 @@ fun HeroIcon(
             painter = painterResource(heroIcon),
             contentDescription = null
         )
-    }
-}
-
-@Preview
-@Composable
-fun HeroPreview() {
-    SupeheroesTheme(darkTheme = false) {
-        HeroApp()
-    }
-}
-
-@Preview
-@Composable
-fun HeroDarkThemePreview() {
-    SupeheroesTheme(darkTheme = true) {
-        HeroApp()
     }
 }
